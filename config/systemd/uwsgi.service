@@ -1,0 +1,14 @@
+[Unit]
+Description=Uwsgi Emperor
+After=syslog.target
+
+[Service]
+ExecStart=/home/bgoldberg/workspace/alexa-fireplace/venv/bin/uwsgi --ini /home/bgoldberg/workspace/alexa-fireplace/config/uwsgi/emperor.ini
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
