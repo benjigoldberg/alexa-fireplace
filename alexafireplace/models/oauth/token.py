@@ -1,8 +1,8 @@
 from datetime import datetime
 from datetime import timedelta
 
-from alexafireplace import db
-from alexafireplace import oauth
+from alexafireplace.server import db
+from alexafireplace.server import oauth
 
 
 @oauth.tokengetter
@@ -17,7 +17,7 @@ def load_token(access_token=None, refresh_token=None):
 @oauth.tokensetter
 def save_token(token, request, *args, **kwargs):
     tokens = Token.query.filter_by(client_id=request.client.client_id,
-                                   user_id=request.user.id)
+                                   user_id=request.user.pk)
     # Ensure that every user has only one valid token active
     _ = [db.session.delete(token) for token in tokens]
 
@@ -29,7 +29,7 @@ def save_token(token, request, *args, **kwargs):
                   token_type=token['token_type'],
                   _scopes=token['scope'], expires=expires,
                   client_id=request.client.client_id,
-                  user_id=request.user.id)
+                  user_id=request.user.pk)
     db.session.add(token)
     db.session.commit()
     return token
@@ -39,7 +39,7 @@ class Token(db.Model):
     pk = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.String(40), db.ForeignKey('client.client_id'),
                           nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.pk'))
     user = db.relationship('User')
 
     token_type = db.Column(db.String(40))

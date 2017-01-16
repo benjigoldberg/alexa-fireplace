@@ -1,3 +1,6 @@
+import binascii
+import os
+
 from alexafireplace.server import db
 from alexafireplace.server import oauth
 
@@ -12,9 +15,11 @@ class Client(db.Model):
     name = db.Column(db.String(40))
     user_id = db.Column(db.ForeignKey('user.pk'))
     user = db.relationship('User')
-    client_id = db.Column(db.String(40), primary_key=True)
+    client_id = db.Column(db.String(40), primary_key=True, 
+                          default=binascii.hexlify(os.urandom(12)))
     client_secret = db.Column(db.String(55), unique=True, index=True,
-                              nullable=False)
+                              nullable=False,
+                              default=binascii.hexlify(os.urandom(36)))
     _redirect_uris = db.Column(db.Text)
 
     @property

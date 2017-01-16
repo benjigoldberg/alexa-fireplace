@@ -25,7 +25,7 @@ def save_grant(client_id, code, request, *args, **kwargs):
 class Grant(db.Model):
     """Defines a Grant to be exchanged with the client during Authorization"""
     pk = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.ForeignKey('user.id', ondelete='CASCADE'))
+    user_id = db.Column(db.ForeignKey('user.pk', ondelete='CASCADE'))
     user = db.relationship('User')
     client_id = db.Column(db.String(40), db.ForeignKey('client.client_id'),
                           nullable=False)

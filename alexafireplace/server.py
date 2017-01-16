@@ -1,6 +1,7 @@
 # Defines the Alexa Fireplace Server
 
 from flask import Flask
+from flask import jsonify
 from flask import render_template
 from flask_migrate import Migrate
 from flask_oauthlib.provider import OAuth2Provider
@@ -13,10 +14,21 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 oauth = OAuth2Provider(app)
 
+# Register Error Handler
+from alexafireplace.exceptions import HttpException
+
+
+@app.errorhandler(HttpException)
+def handle_exception(error):
+    """Handles and formats exception for the end user."""
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
 
 # Import Views and Models
-from alexafireplace import models
-from alexafireplace import views
+import alexafireplace.models
+import alexafireplace.views
 
 
 # Provide a basic Index page, primarily as a debug heartbeat

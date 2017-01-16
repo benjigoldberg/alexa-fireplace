@@ -90,3 +90,6 @@ ENV/
 
 # Ignore SQLite Database
 alexafireplace/fireplace.db
+
+# Don't commit secrets.
+secret_key.txt
