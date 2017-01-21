@@ -1,0 +1,1 @@
+from alexafireplace.decorators.authentication import login_required

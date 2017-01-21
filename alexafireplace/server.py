@@ -35,7 +35,7 @@ import alexafireplace.views
 @app.route('/')
 def index():
     """Renders and returns the Alexa Fireplace index page."""
-    return render_template('index.jinja')
+    return render_template('login.jinja')
 
 
 if __name__ == "__main__":

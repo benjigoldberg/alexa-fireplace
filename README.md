@@ -12,4 +12,5 @@
   a. ```$ sudo ln -s `pwd`/emperor.ini /etc/uwsgi/emperor.ini```
   b. ```$ sudo ln -s `pwd`/alexa-fireplace-uwsgi.ini /etc/uwsgi/vassals/alexa-fireplace-uwsgi.ini```
   c. `$ sudo systemctl enable uwsgi`
-
+6. Add www-data to group gpio
+  a. sudo adduser www-data gpio

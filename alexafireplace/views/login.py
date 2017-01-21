@@ -17,8 +17,7 @@ def login():
                          'and `password` is required')
     user = user_model.can_login(payload['username'], payload['password'])
     session['user'] = user.to_dict()
-    response = make_response()
-    return response
+    return make_response()
 
 
 @app.route('/logout', methods=['POST'])

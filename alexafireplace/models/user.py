@@ -9,9 +9,9 @@ def can_login(username, password):
     """The user can login if the User is valid and the password works."""
     user = User.query.filter_by(username=username).first()
     if user is None:
-        raise UserNotFound
+        raise UserNotFound("Could not find specified user.")
     if check_password_hash(user.password_hash, password) is False:
-        raise PermissionDenied
+        raise PermissionDenied("Password is invalid.")
     return user
 
 

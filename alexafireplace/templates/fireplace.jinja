@@ -1,0 +1,52 @@
+{% extends "base.jinja" %}
+{% block title %}Fireplace Controls{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+<h3>Control your Fireplace</h3>
+<form>
+  <button type="button" id="blower-fan"
+      class="btn btn-primary btn-lg {{ 'active' if fireplace_state.blower_fan else '' }}">
+    Blower Fan {{ 'On' if fireplace_state.blower_fan else 'Off' }}
+  </button>
+  <button name="flame" type="button" id="flame"
+      class="btn btn-primary btn-lg {{ 'active' if fireplace_state.flame else '' }}"">
+    Flame {{ 'On' if fireplace_state.flame else 'Off' }}
+  </button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+  var postFireplace = function(data) {
+    $.ajax({
+      url: "/fireplace",
+      type: "POST",
+      data: data,
+      contentType: "application/json; charset=utf-8"
+    }).done(function(data) {
+      // Be lazy and just reload/rerender
+      location.reload();
+    }).fail(function(data) {
+      console.log(error);
+    });
+  };
+
+  $("#flame").click(function(event) {
+    event.preventDefault();
+    postFireplace(JSON.stringify({"flame": !$(this).hasClass("active")}));
+    return False;
+  });
+  $("#blower-fan").click(function(event) {
+    event.preventDefault();
+    postFireplace(JSON.stringify({"blower_fan": !$(this).hasClass("active")}));
+    return False;
+  });
+
+</script>
+{% endblock %}

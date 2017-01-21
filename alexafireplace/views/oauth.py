@@ -1,9 +1,18 @@
+from flask import render_template
+
+from alexafireplace.decorators import login_required
 from alexafireplace.server import app
 from alexafireplace.server import oauth
 
 
+@app.route('/oauth/settings', methods=['GET'])
+@login_required
+def oauth_settings():
+    return render_template('oauth_settings.jinja')
+
+
 @app.route('/oauth/authorize', methods=['GET', 'POST'])
-#@require_login
+@login_required
 @oauth.authorize_handler
 def authorize(*args, **kwargs):
     if request.method == 'GET':
