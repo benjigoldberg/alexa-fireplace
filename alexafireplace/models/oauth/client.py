@@ -16,11 +16,12 @@ class Client(db.Model):
     user_id = db.Column(db.ForeignKey('user.pk'))
     user = db.relationship('User')
     client_id = db.Column(db.String(40), primary_key=True, 
-                          default=binascii.hexlify(os.urandom(12)))
+                          default=str(binascii.hexlify(os.urandom(12))))
     client_secret = db.Column(db.String(55), unique=True, index=True,
                               nullable=False,
-                              default=binascii.hexlify(os.urandom(36)))
+                              default=str(binascii.hexlify(os.urandom(36))))
     _redirect_uris = db.Column(db.Text)
+    _default_scopes = db.Column(db.Text)
 
     @property
     def redirect_uris(self):
@@ -33,3 +34,10 @@ class Client(db.Model):
     def default_redirect_uri(self):
         """Returns the default Redirect URI for this client"""
         return self.redirect_uris[0]
+
+    @property
+    def default_scopes(self):
+        """Returns default scopes for the client."""
+        if self._default_scopes:
+            return self._default_scopes.split()
+        return []

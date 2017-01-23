@@ -1,5 +1,7 @@
 """Controls for the fireplace"""
 
+from datetime import datetime
+
 import RPi.GPIO as GPIO
 
 # Use the Pinout definitions rather than naive board pin count
@@ -7,9 +9,12 @@ GPIO.setmode(GPIO.BCM)
 
 BLOWER_FAN = 23
 #FIREPLACE = 
+RF_RECEIVE = 19
+RF_TRANSMIT = 6
 
 # Initialize the Blower Fan Pin as Output
-GPIO.setup([BLOWER_FAN], GPIO.OUT)
+GPIO.setup([BLOWER_FAN, RF_TRANSMIT], GPIO.OUT)
+GPIO.setup([RF_RECEIVE], GPIO.IN)
 
 
 def get_blower_fan_state():
@@ -32,4 +37,19 @@ def set_flame(enable):
     """If `enable` is ``True``, turn on the flame, else turn it off."""
     signal = GPIO.HIGH if enable is True else GPIO.LOW
     #GPIO.output(FIREPLACE, signal)
+
+def record_remote_code():
+    """Records a remote code"""
+    cumulative_time = 0
+    start = datetime.utcnow()
+    times = []
+    signals = []
+    while cumulative_time < 5:
+        timedelta = datetime.utcnow() - start
+        times.append(timedelta)
+        signals.append(GPIO.input(RF_RECEIVE))
+        cumulative_time = timedelta.seconds
+    for idx in range(len(times)):
+        times[idx] = times[idx].seconds + times[idx].microseconds/1000000.
+    return times, signals
 

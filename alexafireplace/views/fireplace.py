@@ -29,3 +29,14 @@ def get_set_fireplace():
     if request.method == 'POST':
         return jsonify(fireplace_state)
     return render_template('fireplace.jinja', fireplace_state=fireplace_state)
+
+
+@app.route('/fireplace/record', methods=['GET'])
+@login_required
+def record_remote():
+    """Records remote data and then returns the recorded data"""
+    times, signals = fireplace.record_remote_code()
+    return jsonify({
+        'times': times,
+        'signals': signals
+    })

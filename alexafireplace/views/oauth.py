@@ -1,6 +1,8 @@
 from flask import render_template
+from flask import request
 
 from alexafireplace.decorators import login_required
+from alexafireplace.models import Client
 from alexafireplace.server import app
 from alexafireplace.server import oauth
 
@@ -19,7 +21,7 @@ def authorize(*args, **kwargs):
         client_id = kwargs.get('client_id')
         client = Client.query.filter_by(client_id=client_id).first()
         kwargs['client'] = client
-        return render_template('oauthorize.html', kwargs)
+        return render_template('oauth_confirm.jinja', **kwargs)
 
     confirm = request.form.get('confirm', 'no')
     return confirm == 'yes'

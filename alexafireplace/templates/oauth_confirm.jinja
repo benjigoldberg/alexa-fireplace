@@ -1,0 +1,38 @@
+{% extends "base.jinja" %}
+{% block title %}Authorize {{ client.name }}{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+<h3>Grant {{ client.name }} access to your fireplace?</h3>
+<button id="yes" class="btn btn-large btn-success">Yes</button>
+<button id="no" class="btn btn-large btn-success">No</button>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+  var postConfirmation = function(result) {
+    $.post('/oauth/authorize', {
+      confirm: result,
+      scope: "all"
+    });
+  };
+
+  $("#yes").click(function(data) {
+    event.preventDefault();
+    postConfirmation('yes');
+    return false;
+  });
+
+  $("#no").click(function(data) {
+    event.preventDefault();
+    postConfirmation('no');
+    return false;
+  });
+
+</script>
+{% endblock %}

@@ -3,6 +3,7 @@
 
 {% block head %}
 {{ super() }}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,6 +19,12 @@
     Flame {{ 'On' if fireplace_state.flame else 'Off' }}
   </button>
 </form>
+<div id="record-remote">
+  <button type="button" id="record" class="btn btn-primary btn-lg">
+    Record Remote Code
+  </button>
+  <canvas id="recording" width="400" height="400"></canvas
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -48,5 +55,25 @@
     return False;
   });
 
+  $("#record").click(function(event) {
+    event.preventDefault();
+    $.get("fireplace/record")
+      .done(function(data) {
+        var recordingChart = new Chart($("#recording"), {
+          type: "line",
+          data: {
+            labels: data.times,
+            datasets: [{
+              data: data.signals
+            }]
+          },
+          options: {}
+        });
+      })
+      .fail(function(data) {
+        console.log(data);
+      });
+    return false;
+  });
 </script>
 {% endblock %}
