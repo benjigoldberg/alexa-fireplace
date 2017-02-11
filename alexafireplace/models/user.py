@@ -1,13 +1,15 @@
+from flask import session
+from flask_bcrypt import check_password_hash
+
 from alexafireplace.exceptions import PermissionDenied
 from alexafireplace.exceptions import UserNotFound
 from alexafireplace.server import db
 from alexafireplace.server import oauth
-from flask_bcrypt import check_password_hash
 
 
 def can_login(username, password):
     """The user can login if the User is valid and the password works."""
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username.lower()).first()
     if user is None:
         raise UserNotFound("Could not find specified user.")
     if check_password_hash(user.password_hash, password) is False:
@@ -16,7 +18,13 @@ def can_login(username, password):
 
 
 @oauth.usergetter
-def get_user(username, password, *args, **kwargs):
+def get_user(username=None, password=None, *args, **kwargs):
+    # Get current user if user an password were not supplied
+    if username is None or password is None:
+        session_user = session.get('user', {})
+        if session_user is None:
+            return None
+        return User.query.filter_by(pk=session_user['id']).first()
     return can_login(username, password)
 
 

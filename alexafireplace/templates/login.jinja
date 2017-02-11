@@ -12,7 +12,7 @@
 {{ super() }}
 <h3>Welcome to Alexa Fireplace!</h3>
 <div class="row">
-  <form id="login-form">
+  <form id="login-form" method="post">
     <div class="form-group">
       <label for="username">User Name:</label>
       <input id="username" name="username" type="text" 
@@ -25,32 +25,11 @@
           placeholder="Password" class="form-control" required="true">
       </input>
     </div>
-    <button type="submit" class="btn btn-block">Log In</button>
+    <button type="submit" class="btn btn-block btn-success">Log In</button>
   </form>
 </div>
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
-<script type="text/javascript">
-  var login = function(username, password) {
-    var data = JSON.stringify({"username": username, "password": password});
-    $.ajax({
-        url: "/login",
-        type: "POST",
-        data: data,
-        contentType: "application/json; charset=utf-8",
-    }).done(function(data) {
-      window.location.href = 'fireplace'
-    }).fail(function(error) {
-      console.log(error);
-    });
-  };
-
-  $("#login-form").submit(function(event) {
-    event.preventDefault();
-    login($(this).find("#username").val(), $(this).find("#password").val());
-    return false;
-  });
-</script>
 {% endblock %}

@@ -3,6 +3,8 @@ from datetime import timedelta
 
 from alexafireplace.server import db
 from alexafireplace.server import oauth
+from alexafireplace.models.user import get_user
+
 
 @oauth.grantgetter
 def load_grant(client_id, code):
@@ -15,7 +17,7 @@ def save_grant(client_id, code, request, *args, **kwargs):
     grant = Grant(client_id=client_id, code=code['code'], 
                   redirect_uri=request.redirect_uri,
                   _scopes=' '.join(request.scopes),
-                  user=get_current_user(),
+                  user=get_user(),
                   expires=expires)
     db.session.add(grant)
     db.session.commit()
@@ -43,5 +45,5 @@ class Grant(db.Model):
     @property
     def scopes(self):
         if self._scopes is not None:
-            return self._scopes.split()
+            return self._scopes.split(',')
         return []

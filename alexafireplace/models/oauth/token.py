@@ -1,5 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
+from flask import session
 
 from alexafireplace.server import db
 from alexafireplace.server import oauth
@@ -15,24 +16,24 @@ def load_token(access_token=None, refresh_token=None):
 
 
 @oauth.tokensetter
-def save_token(token, request, *args, **kwargs):
+def save_token(new_token, request, *args, **kwargs):
     tokens = Token.query.filter_by(client_id=request.client.client_id,
                                    user_id=request.user.pk)
     # Ensure that every user has only one valid token active
     _ = [db.session.delete(token) for token in tokens]
 
-    expires_in = token.get('expires_in')
+    expires_in = new_token.get('expires_in')
     expires = datetime.utcnow() + timedelta(seconds=expires_in)
 
-    token = Token(access_token=token['access_token'],
-                  refresh_token=token['refresh_token'],
-                  token_type=token['token_type'],
-                  _scopes=token['scope'], expires=expires,
-                  client_id=request.client.client_id,
-                  user_id=request.user.pk)
-    db.session.add(token)
+    new_token_inst = Token(access_token=new_token['access_token'],
+                           refresh_token=new_token['refresh_token'],
+                           token_type=new_token['token_type'],
+                           _scopes=new_token['scope'], expires=expires,
+                           client_id=request.client.client_id,
+                           user_id=request.user.pk)
+    db.session.add(new_token_inst)
     db.session.commit()
-    return token
+    return new_token_inst
 
 
 class Token(db.Model):

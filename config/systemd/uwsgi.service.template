@@ -1,0 +1,17 @@
+[Unit]
+Description=Uwsgi Emperor
+After=rsyslog.target
+
+[Service]
+PIDFile=/run/uwsgi-emperor.pid
+ExecStart={{ PROJECT_ROOT }}/venv/bin/uwsgi --ini {{ PROJECT_ROOT }}/config/uwsgi/emperor.ini
+ExecReload={{ PROJECT_ROOT }}/venv/bin/uwsgi --reload /run/uwsgi-emperor.pid
+ExecStop={{ PROJECT_ROOT }}/venv/bin/uwsgi --stop /run/uwsgi-emperor.pid
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

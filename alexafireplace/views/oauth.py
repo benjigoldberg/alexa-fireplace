@@ -21,9 +21,13 @@ def authorize(*args, **kwargs):
         client_id = kwargs.get('client_id')
         client = Client.query.filter_by(client_id=client_id).first()
         kwargs['client'] = client
+        kwargs['redirect_uri'] = kwargs.get('redirect_uri', 
+                                            client.default_redirect_uri)
+        kwargs['scope'] = kwargs.get('scope', 'all')
+        kwargs['response_type'] = kwargs.get('response_type', 'code')
+        kwargs['state'] = kwargs.get('state')
         return render_template('oauth_confirm.jinja', **kwargs)
-
-    confirm = request.form.get('confirm', 'no')
+    confirm = request.form.get('confirm', 'no') 
     return confirm == 'yes'
 
 

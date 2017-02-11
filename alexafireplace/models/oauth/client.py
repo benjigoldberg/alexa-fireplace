@@ -24,10 +24,15 @@ class Client(db.Model):
     _default_scopes = db.Column(db.Text)
 
     @property
+    def client_type(self):
+        """All clients are confidential."""
+        return 'confidential'
+
+    @property
     def redirect_uris(self):
         """Returns the supported Redirect URIs for this client"""
         if self._redirect_uris is not None:
-            return self._redirect_uris.split()
+            return self._redirect_uris.split(',')
         return []
 
     @property
@@ -39,5 +44,5 @@ class Client(db.Model):
     def default_scopes(self):
         """Returns default scopes for the client."""
         if self._default_scopes:
-            return self._default_scopes.split()
+            return self._default_scopes.split(',')
         return []

@@ -1,10 +1,12 @@
 [Unit]
 Description=Uwsgi Emperor
-After=syslog.target
-Before=nginx.service
+After=rsyslog.target
 
 [Service]
+PIDFile=/run/uwsgi-emperor.pid
 ExecStart=/home/bgoldberg/workspace/alexa-fireplace/venv/bin/uwsgi --ini /home/bgoldberg/workspace/alexa-fireplace/config/uwsgi/emperor.ini
+ExecReload=/home/bgoldberg/workspace/alexa-fireplace/venv/bin/uwsgi --reload /run/uwsgi-emperor.pid
+ExecStop=/home/bgoldberg/workspace/alexa-fireplace/venv/bin/uwsgi --stop /run/uwsgi-emperor.pid
 Restart=always
 KillSignal=SIGQUIT
 Type=notify

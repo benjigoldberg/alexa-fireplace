@@ -93,3 +93,7 @@ alexafireplace/fireplace.db
 
 # Don't commit secrets.
 secret_key.txt
+
+# Ignore rendered templates
+config/systemd/uwsgi.service
+config/nginx/alexa-fireplace-nginx.conf

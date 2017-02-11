@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from flask_oauthlib.provider import OAuth2Provider
 from flask_sqlalchemy import SQLAlchemy
 
+
 # Load and configure the Flask Application
 app = Flask(__name__)
 app.config.from_object('alexafireplace.config')
@@ -29,13 +30,6 @@ def handle_exception(error):
 # Import Views and Models
 import alexafireplace.models
 import alexafireplace.views
-
-
-# Provide a basic Index page, primarily as a debug heartbeat
-@app.route('/')
-def index():
-    """Renders and returns the Alexa Fireplace index page."""
-    return render_template('login.jinja')
 
 
 if __name__ == "__main__":
