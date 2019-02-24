@@ -44,3 +44,11 @@ clean:
 
 build:
 	go build -ldflags="-X main.gitSHA=${GIT_SHA}" cmd/fireplace.go
+
+ifeq ($(shell uname), Linux)
+set-service:
+	$(shell cp fireplace.service /etc/systemd/system/fireplace.service && systemctl daemon-reload)
+install: set-service
+endif
+install:
+	$(shell GOBIN=/usr/local/bin go install cmd/fireplace.go)
