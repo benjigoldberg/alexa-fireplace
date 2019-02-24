@@ -1,3 +1,5 @@
+.PHONY: set-service install
+
 BIN_DIR=$(GOPATH)/bin
 
 default_target: all
@@ -46,9 +48,8 @@ build:
 	go build -ldflags="-X main.gitSHA=${GIT_SHA}" cmd/fireplace.go
 
 ifeq ($(shell uname), Linux)
-.PHONY: set-service install
 set-service:
-	$(shell ln -s $(addprefix)/fireplace.service /etc/systemd/system/fireplace.service && systemctl daemon-reload)
+	$(shell ln -s $(CURDIR)/fireplace.service /etc/systemd/system/fireplace.service && systemctl daemon-reload)
 install: set-service
 endif
 install:
