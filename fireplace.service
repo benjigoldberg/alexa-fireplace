@@ -4,8 +4,7 @@ After=rsyslog.target
 
 [Service]
 PIDFile=/run/fireplace.pid
-ExecStart=fireplace server
-ExecStop=fireplace server
+ExecStart=fireplace server -a 0.0.0.0 -p 80
 Restart=always
 KillSignal=SIGQUIT
 Type=notify
