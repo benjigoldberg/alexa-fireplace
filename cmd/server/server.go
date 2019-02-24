@@ -17,7 +17,7 @@ func NewCmd(gitSHA string) *cobra.Command {
 		Short: "Runs a Server for controlling the fireplace",
 		Long:  longDescription,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			c.Server.RunHTTPServer(c.PreStart, nil, c.RegisterMuxes)
+			c.Server.RunHTTPServer(nil, nil, c.RegisterMuxes)
 			return nil
 		},
 	}

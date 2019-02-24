@@ -43,4 +43,4 @@ clean:
 	rm -rf vendor
 
 build:
-	go build -ldflags="-X main.gitSha=${GIT_SHA}" cmd/fireplace.go
+	go build -ldflags="-X main.gitSHA=${GIT_SHA}" cmd/fireplace.go

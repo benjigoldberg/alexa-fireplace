@@ -1,7 +1,6 @@
 package server
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,9 +12,7 @@ import (
 
 // Config wraps the web server configuration
 type Config struct {
-	Server    tools.HTTPServerConfig
-	oAuthConf OAuthConfig
-	oAuth     OAuth
+	Server tools.HTTPServerConfig
 }
 
 // RegisterFlags registers flags with pflag driven CLIs
@@ -28,18 +25,11 @@ func (c *Config) RegisterFlags(flags *pflag.FlagSet, name, gitSHA string) {
 		"github.com/benjigoldberg/alexa-fireplace",
 		gitSHA,
 	)
-	c.oAuthConf.RegisterFlags(flags)
-}
-
-// PreStart configures the server for handling requests
-func (c *Config) PreStart(ctx context.Context, mux *http.ServeMux, server *http.Server) {
-	c.oAuth = c.oAuthConf.NewOAuth(c.Server.Address, c.Server.Port)
 }
 
 // RegisterMuxes registers HTTP handlers with the webserver mux
 func (c *Config) RegisterMuxes(mux *http.ServeMux) {
 	mux.HandleFunc("/fireplace", fireplaceHandler)
-	c.oAuth.RegisterMuxes(mux)
 }
 
 func fireplaceHandler(w http.ResponseWriter, r *http.Request) {
