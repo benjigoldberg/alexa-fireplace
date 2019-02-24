@@ -3,7 +3,7 @@
   version = "0.0.3"
 
 [[constraint]]
-  branch = "https"
+  revision = "a87cfbb5dd3e2f1f64f1e62aaa838e437a0aaae7"
   name = "github.com/spothero/tools"
 
 [[constraint]]

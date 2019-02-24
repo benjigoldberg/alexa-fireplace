@@ -359,12 +359,11 @@
   version = "v1.0.3"
 
 [[projects]]
-  branch = "https"
-  digest = "1:891dcaf88983ba659e53f8d358e1093a3b4e82483dafd9d0ea5a02e5d00d43eb"
+  digest = "1:2e966ec630d59af24b97615c573e14c6e30be659df7a50769eb103afe95dac3c"
   name = "github.com/spothero/tools"
   packages = ["."]
   pruneopts = "UT"
-  revision = "af7e351ba0658e33d45a12486a812728a6118834"
+  revision = "a87cfbb5dd3e2f1f64f1e62aaa838e437a0aaae7"
 
 [[projects]]
   digest = "1:f3a8fd592d6f5355c3a8817ec8552e3ba1fb616799d945c3e56b006e8a26f203"
