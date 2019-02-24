@@ -29,8 +29,6 @@ func (c *Config) RegisterFlags(flags *pflag.FlagSet, name, gitSHA string) {
 
 // RegisterMuxes registers HTTP handlers with the webserver mux
 func (c *Config) RegisterMuxes(mux *http.ServeMux) {
-	fs := http.FileServer(http.Dir("/var/www/.well-known"))
-	mux.Handle("/.well-known/", http.StripPrefix("/var/www/", fs))
 	mux.HandleFunc("/fireplace", fireplaceHandler)
 }
 
