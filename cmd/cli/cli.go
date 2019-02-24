@@ -1,4 +1,4 @@
-package server
+package cli
 
 import (
 	"github.com/benjigoldberg/alexa-fireplace/pkg/fireplace"
@@ -11,7 +11,7 @@ const description = `CLI for controlling the fireplace`
 func NewCmd(gitSHA string) *cobra.Command {
 	f := fireplace.State{}
 	cmd := &cobra.Command{
-		Use:   "fan",
+		Use:   "cli",
 		Short: description,
 		Long:  description,
 		RunE: func(cmd *cobra.Command, args []string) error {

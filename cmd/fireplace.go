@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/benjigoldberg/alexa-fireplace/cmd/cli"
 	"github.com/benjigoldberg/alexa-fireplace/cmd/server"
 	"github.com/spf13/cobra"
 	"github.com/spothero/tools"
@@ -21,6 +22,7 @@ func newRootCmd(args []string) *cobra.Command {
 		PersistentPreRun: tools.CobraBindEnvironmentVariables("fireplace"),
 	}
 	cmd.AddCommand(server.NewCmd(gitSHA))
+	cmd.AddCommand(cli.NewCmd(gitSHA))
 	return cmd
 }
 
