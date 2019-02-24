@@ -99,3 +99,4 @@ config/systemd/uwsgi.service
 config/nginx/alexa-fireplace-nginx.conf
 coverage.txt
 fireplace
+vendor
