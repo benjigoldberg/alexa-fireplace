@@ -46,8 +46,9 @@ build:
 	go build -ldflags="-X main.gitSHA=${GIT_SHA}" cmd/fireplace.go
 
 ifeq ($(shell uname), Linux)
+.PHONY: set-service install
 set-service:
-	$(shell cp fireplace.service /etc/systemd/system/fireplace.service && systemctl daemon-reload)
+	$(shell ln -s $(addprefix)/fireplace.service /etc/systemd/system/fireplace.service && systemctl daemon-reload)
 install: set-service
 endif
 install:
