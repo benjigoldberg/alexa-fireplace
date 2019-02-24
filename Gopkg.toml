@@ -1,0 +1,23 @@
+[[constraint]]
+  name = "github.com/spf13/cobra"
+  version = "0.0.3"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/spothero/tools"
+
+[[constraint]]
+  name = "github.com/stianeikeland/go-rpio"
+  version = "4.4.0"
+
+[[constraint]]
+  name = "golang.org/x/oauth2"
+  branch = "master"
+
+[[constraint]]
+  name = "github.com/satori/go.uuid"
+  branch = "master"
+
+[prune]
+  go-tests = true
+  unused-packages = true
